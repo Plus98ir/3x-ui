@@ -423,6 +423,41 @@ export const ApiTokenViewSchema = z.object({
 });
 export type ApiTokenView = z.infer<typeof ApiTokenViewSchema>;
 
+export const CleanIpCommandSchema = z.object({
+  expiresAt: z.number().int(),
+  scriptUrl: z.string(),
+  token: z.string(),
+  unix: z.string(),
+  windows: z.string(),
+});
+export type CleanIpCommand = z.infer<typeof CleanIpCommandSchema>;
+
+export const CleanIpCommandRequestSchema = z.object({
+  host: z.string(),
+  ips: z.array(z.string()),
+  path: z.string(),
+  perRange: z.number().int(),
+  size: z.number().int(),
+});
+export type CleanIpCommandRequest = z.infer<typeof CleanIpCommandRequestSchema>;
+
+export const CleanIpFragmentSchema = z.object({
+  delay: z.string(),
+  length: z.string(),
+  ms: z.number().int(),
+  n: z.number().int(),
+  ok: z.number().int(),
+  packets: z.string(),
+});
+export type CleanIpFragment = z.infer<typeof CleanIpFragmentSchema>;
+
+export const CleanIpHitSchema = z.object({
+  colo: z.string(),
+  ip: z.string(),
+  ms: z.number().int(),
+});
+export type CleanIpHit = z.infer<typeof CleanIpHitSchema>;
+
 export const CleanIpNetworkSchema = z.object({
   asn: z.number().int(),
   country: z.string(),
@@ -431,6 +466,16 @@ export const CleanIpNetworkSchema = z.object({
   org: z.string(),
 });
 export type CleanIpNetwork = z.infer<typeof CleanIpNetworkSchema>;
+
+export const CleanIpReportSchema = z.object({
+  at: z.number().int(),
+  fragments: z.array(z.lazy(() => CleanIpFragmentSchema)),
+  ips: z.array(z.lazy(() => CleanIpHitSchema)),
+  network: z.lazy(() => CleanIpNetworkSchema),
+  size: z.number().int(),
+  tested: z.number().int(),
+});
+export type CleanIpReport = z.infer<typeof CleanIpReportSchema>;
 
 export const ClientSchema = z.object({
   adTag: z.string().optional(),
