@@ -65,6 +65,7 @@ jobs:
         working-directory: frontend
 
       - name: Build 3X-UI
+        continue-on-error: true
         run: |
           CURL_RETRY="--retry 5 --retry-all-errors --retry-delay 3"
           fetch() { wget -q --tries=5 --waitretry=10 --retry-on-http-error=429,500,502,503 "$@"; }
@@ -172,6 +173,13 @@ jobs:
               ;;
           esac
           cd ../..
+
+      - name: Upload x-ui binary only (test build)
+        if: matrix.platform == 'amd64'
+        uses: actions/upload-artifact@v7
+        with:
+          name: x-ui-binary-amd64
+          path: ./xui-release
 
       - name: Package
         run: |
