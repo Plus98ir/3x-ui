@@ -2,11 +2,12 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { ComponentType, CSSProperties } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import { Drawer, Layout, Menu, Tooltip } from 'antd';
+import { Drawer, Layout, Menu, Popover, Tooltip } from 'antd';
 import type { MenuProps } from 'antd';
 import {
   ApiOutlined,
   ApartmentOutlined,
+  BgColorsOutlined,
   CloseOutlined,
   CloudServerOutlined,
   ClusterOutlined,
@@ -41,7 +42,12 @@ import {
 
 import { HttpUtil } from '@/utils';
 import { formatPanelVersion } from '@/lib/panel-version';
-import { pauseAnimationsUntilLeave, useTheme } from '@/hooks/useTheme';
+import {
+  ACCENT_COLORS,
+  accentPrimary,
+  pauseAnimationsUntilLeave,
+  useTheme,
+} from '@/hooks/useTheme';
 import { useAllSettings } from '@/api/queries/useAllSettings';
 import { useCommandPalette } from '@/components/command-palette/useCommandPalette';
 import './AppSidebar.css';
@@ -163,6 +169,41 @@ function ThemeCycleButton({
     >
       {icon}
     </button>
+  );
+}
+
+function AccentPicker({ id, ariaLabel }: { id: string; ariaLabel: string }) {
+  const { t } = useTranslation();
+  const { isDark, accent, setAccent } = useTheme();
+  const swatches = (
+    <div className="accent-swatches" role="radiogroup" aria-label={ariaLabel}>
+      {ACCENT_COLORS.map((color) => (
+        <button
+          key={color}
+          type="button"
+          role="radio"
+          aria-checked={accent === color}
+          className={`accent-swatch${accent === color ? ' active' : ''}`}
+          style={{ '--swatch': accentPrimary(color, isDark) } as CSSProperties}
+          aria-label={t(`menu.accentColors.${color}`)}
+          title={t(`menu.accentColors.${color}`)}
+          onClick={() => setAccent(color)}
+        />
+      ))}
+    </div>
+  );
+  return (
+    <Popover content={swatches} title={ariaLabel} trigger="click" placement="bottomRight">
+      <button
+        id={id}
+        type="button"
+        className="sidebar-theme-cycle"
+        aria-label={ariaLabel}
+        title={ariaLabel}
+      >
+        <BgColorsOutlined aria-hidden />
+      </button>
+    </Popover>
   );
 }
 
@@ -398,6 +439,7 @@ export default function AppSidebar() {
               </button>
               <DocsButton ariaLabel={t('menu.docs') || 'Documentation'} />
               <DonateButton ariaLabel={t('menu.donate') || 'Donate'} />
+              <AccentPicker id="accent-picker" ariaLabel={t('menu.accentColor')} />
               <ThemeCycleButton
                 id="theme-cycle"
                 isDark={isDark}
@@ -475,6 +517,7 @@ export default function AppSidebar() {
           <div className="drawer-header-actions">
             <DocsButton ariaLabel={t('menu.docs') || 'Documentation'} />
             <DonateButton ariaLabel={t('menu.donate') || 'Donate'} />
+            <AccentPicker id="accent-picker-drawer" ariaLabel={t('menu.accentColor')} />
             <ThemeCycleButton
               id="theme-cycle-drawer"
               isDark={isDark}
