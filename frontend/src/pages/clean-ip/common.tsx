@@ -4,6 +4,10 @@ import { Alert, Tag, Typography } from 'antd';
 
 import { HttpUtil } from '@/utils';
 
+import type { CleanIpCdn } from './scan';
+
+export type { CleanIpCdn };
+
 export interface CleanIpNetwork {
   ip: string;
   asn: number;
@@ -14,12 +18,6 @@ export interface CleanIpNetwork {
 
 // Cloudflare's own networks: a visitor seen from one of them is on WARP or a VPN, not an ISP.
 export const CLOUDFLARE_ASNS = new Set([13335, 14789, 209242, 395747]);
-
-export interface CleanIpCdn {
-  id: string;
-  name: string;
-  ranges: string[];
-}
 
 export async function fetchCdns(): Promise<CleanIpCdn[]> {
   const msg = await HttpUtil.get('/panel/api/cleanip/cdns', undefined, { silent: true });
