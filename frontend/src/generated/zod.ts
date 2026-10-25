@@ -423,6 +423,15 @@ export const ApiTokenViewSchema = z.object({
 });
 export type ApiTokenView = z.infer<typeof ApiTokenViewSchema>;
 
+export const CleanIpNetworkSchema = z.object({
+  asn: z.number().int(),
+  country: z.string(),
+  ip: z.string(),
+  isp: z.string(),
+  org: z.string(),
+});
+export type CleanIpNetwork = z.infer<typeof CleanIpNetworkSchema>;
+
 export const ClientSchema = z.object({
   adTag: z.string().optional(),
   allowedIPs: z.array(z.string()).optional(),

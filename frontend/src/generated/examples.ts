@@ -404,6 +404,13 @@ export const EXAMPLES: Record<string, unknown> = {
     "scope": "admin",
     "token": "new-token-string"
   },
+  "CleanIpNetwork": {
+    "asn": 197207,
+    "country": "IR",
+    "ip": "5.160.10.20",
+    "isp": "MCI",
+    "org": "Mobile Communication Company of Iran PLC"
+  },
   "Client": {
     "adTag": "0123456789abcdef0123456789abcdef",
     "allowedIPs": [

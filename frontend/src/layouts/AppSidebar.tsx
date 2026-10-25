@@ -19,6 +19,7 @@ import {
   ExportOutlined,
   GithubOutlined,
   GlobalOutlined,
+  ThunderboltOutlined,
   HeartOutlined,
   ImportOutlined,
   LogoutOutlined,
@@ -74,6 +75,7 @@ type IconName =
   | 'tool'
   | 'cluster'
   | 'hosts'
+  | 'cleanIp'
   | 'logout'
   | 'sponsors'
   | 'apidocs'
@@ -89,6 +91,7 @@ const iconByName: Record<IconName, ComponentType> = {
   tool: ToolOutlined,
   cluster: ClusterOutlined,
   hosts: GlobalOutlined,
+  cleanIp: ThunderboltOutlined,
   logout: LogoutOutlined,
   sponsors: CrownOutlined,
   apidocs: ApiOutlined,
@@ -277,6 +280,7 @@ export default function AppSidebar() {
       { key: '/groups', icon: 'groups', title: t('menu.groups') },
       { key: '/nodes', icon: 'cluster', title: t('menu.nodes') },
       { key: '/hosts', icon: 'hosts', title: t('menu.hosts') },
+      { key: '/clean-ip', icon: 'cleanIp', title: t('menu.cleanIp') },
       { key: '/outbound', icon: 'outbound', title: t('menu.outbounds') },
       { key: '/routing', icon: 'routing', title: t('menu.routing') },
       { key: '/settings', icon: 'setting', title: t('menu.settings') },

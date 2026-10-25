@@ -20,6 +20,7 @@ import {
   ExportOutlined,
   FileTextOutlined,
   GlobalOutlined,
+  ThunderboltOutlined,
   ImportOutlined,
   LoadingOutlined,
   MailOutlined,
@@ -390,6 +391,12 @@ export default function CommandPalette() {
         title: t('menu.hosts'),
         keywords: ['hosts', 'sni', 'domains'],
         icon: <GlobalOutlined />,
+      },
+      {
+        path: '/clean-ip',
+        title: t('menu.cleanIp'),
+        keywords: ['clean ip', 'scanner', 'cloudflare', 'cdn', 'isp'],
+        icon: <ThunderboltOutlined />,
       },
       {
         path: '/outbound',

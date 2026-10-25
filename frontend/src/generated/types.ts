@@ -402,6 +402,14 @@ export interface ApiTokenView {
   token?: string;
 }
 
+export interface CleanIpNetwork {
+  asn: number;
+  country: string;
+  ip: string;
+  isp: string;
+  org: string;
+}
+
 export interface Client {
   adTag?: string;
   allowedIPs?: string[];

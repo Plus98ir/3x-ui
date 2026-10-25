@@ -9,6 +9,7 @@ const TITLE_KEYS: Record<string, string> = {
   '/groups': 'menu.groups',
   '/nodes': 'menu.nodes',
   '/hosts': 'menu.hosts',
+  '/clean-ip': 'menu.cleanIp',
   '/settings': 'menu.settings',
   '/xray': 'menu.xray',
   '/outbound': 'menu.outbounds',
