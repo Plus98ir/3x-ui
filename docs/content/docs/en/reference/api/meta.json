@@ -15,6 +15,7 @@
     "hosts",
     "clean-ip-scanner",
     "dns-tunnel",
+    "reality-watch",
     "nodes",
     "backup",
     "websocket"
