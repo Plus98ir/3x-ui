@@ -1131,6 +1131,7 @@ export interface RealityWatchStatus {
   events: RealityWatchEvent[];
   fails: number;
   inboundId: number;
+  latencyMs: number;
   ok: boolean;
   reason: string;
   spares: string[];

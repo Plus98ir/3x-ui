@@ -4995,6 +4995,10 @@ export const SCHEMAS: Record<string, unknown> = {
         "example": 3,
         "type": "integer"
       },
+      "latencyMs": {
+        "example": 180,
+        "type": "integer"
+      },
       "ok": {
         "example": true,
         "type": "boolean"
@@ -5022,6 +5026,7 @@ export const SCHEMAS: Record<string, unknown> = {
       "events",
       "fails",
       "inboundId",
+      "latencyMs",
       "ok",
       "reason",
       "spares",
