@@ -16,6 +16,7 @@ import {
   Typography,
 } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import { CheckOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 
 import { HttpUtil } from '@/utils';
@@ -33,6 +34,7 @@ interface RealityFinderPanelProps {
   inboundPort: number;
   listen: string;
   currentTarget: string;
+  pickedTargets?: string[];
   onPick: (target: string, serverNames: string[]) => void;
 }
 
@@ -78,6 +80,7 @@ export default function RealityFinderPanel({
   inboundPort,
   listen,
   currentTarget,
+  pickedTargets,
   onPick,
 }: RealityFinderPanelProps) {
   const { t } = useTranslation();
@@ -222,11 +225,14 @@ export default function RealityFinderPanel({
       title: '',
       key: 'action',
       width: 72,
-      render: (_, row) => (
-        <Button type="link" size="small" onClick={() => onPick(`${row.sni}:443`, [row.sni])}>
-          {t('pages.inbounds.form.scanUse')}
-        </Button>
-      ),
+      render: (_, row) =>
+        pickedTargets?.includes(`${row.sni}:443`) ? (
+          <CheckOutlined aria-label={row.sni} style={{ color: '#52c41a', paddingInline: 8 }} />
+        ) : (
+          <Button type="link" size="small" onClick={() => onPick(`${row.sni}:443`, [row.sni])}>
+            {t('pages.inbounds.form.scanUse')}
+          </Button>
+        ),
     },
   ];
 

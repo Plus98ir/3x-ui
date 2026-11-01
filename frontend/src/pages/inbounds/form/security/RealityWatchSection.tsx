@@ -310,6 +310,7 @@ export default function RealityWatchSection({
         inboundPort={inboundPort}
         listen={listen}
         currentTarget={currentTarget}
+        picked={spares}
       />
     </>
   );

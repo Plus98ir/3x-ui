@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, Input, Modal, Space, Table, Tabs, Tag, Tooltip, Typography } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import { CheckOutlined } from '@ant-design/icons';
 
 import type { RealityScanResult } from '@/generated/types';
 import RealityFinderPanel from './RealityFinderPanel';
@@ -18,6 +19,8 @@ interface RealityTargetScannerModalProps {
   inboundPort: number;
   listen: string;
   currentTarget: string;
+  // Given (REALITY watch spares): the dialog stays open on pick and marks what is picked.
+  picked?: string[];
   mldsa65Enabled?: boolean;
 }
 
@@ -30,6 +33,7 @@ export default function RealityTargetScannerModal({
   inboundPort,
   listen,
   currentTarget,
+  picked,
   mldsa65Enabled = false,
 }: RealityTargetScannerModalProps) {
   const { t } = useTranslation();
@@ -180,18 +184,21 @@ export default function RealityTargetScannerModal({
       title: '',
       key: 'action',
       width: 64,
-      render: (_, row) => (
-        <Button
-          type="link"
-          size="small"
-          onClick={() => {
-            onPick(row);
-            onClose();
-          }}
-        >
-          {t('pages.inbounds.form.scanUse')}
-        </Button>
-      ),
+      render: (_, row) =>
+        picked?.includes(row.target) ? (
+          <CheckOutlined aria-label={row.target} style={{ color: '#52c41a', paddingInline: 8 }} />
+        ) : (
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              onPick(row);
+              if (!picked) onClose();
+            }}
+          >
+            {t('pages.inbounds.form.scanUse')}
+          </Button>
+        ),
     },
   ];
 
@@ -254,9 +261,10 @@ export default function RealityTargetScannerModal({
                 inboundPort={inboundPort}
                 listen={listen}
                 currentTarget={currentTarget}
+                pickedTargets={picked}
                 onPick={(target, serverNames) => {
                   onPickTarget(target, serverNames);
-                  onClose();
+                  if (!picked) onClose();
                 }}
               />
             ),
