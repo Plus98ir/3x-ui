@@ -18,6 +18,7 @@ interface RealityTargetScannerModalProps {
   onPickTarget: (target: string, serverNames: string[]) => void;
   inboundPort: number;
   listen: string;
+  nodeId?: number | null;
   currentTarget: string;
   // Given (REALITY watch spares): the dialog stays open on pick and marks what is picked.
   picked?: string[];
@@ -32,6 +33,7 @@ export default function RealityTargetScannerModal({
   onPickTarget,
   inboundPort,
   listen,
+  nodeId = null,
   currentTarget,
   picked,
   mldsa65Enabled = false,
@@ -260,6 +262,7 @@ export default function RealityTargetScannerModal({
               <RealityFinderPanel
                 inboundPort={inboundPort}
                 listen={listen}
+                nodeId={nodeId}
                 currentTarget={currentTarget}
                 pickedTargets={picked}
                 onPick={(target, serverNames) => {

@@ -1179,6 +1179,7 @@ export type RealityFinderCommand = z.infer<typeof RealityFinderCommandSchema>;
 
 export const RealityFinderCommandRequestSchema = z.object({
   current: z.string(),
+  nodeId: z.number().int().nullable().optional(),
   port: z.number().int(),
   scope: z.string(),
   server: z.string(),

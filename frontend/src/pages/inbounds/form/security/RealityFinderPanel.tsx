@@ -33,6 +33,7 @@ const JSON_HEADERS = {
 interface RealityFinderPanelProps {
   inboundPort: number;
   listen: string;
+  nodeId: number | null;
   currentTarget: string;
   pickedTargets?: string[];
   onPick: (target: string, serverNames: string[]) => void;
@@ -46,8 +47,8 @@ export function finderDefaultPort(inboundPort: number, listen: string): number {
 
 // The command lives for a day; keeping it per inbound in this browser tab lets the scanner be
 // closed and reopened (to add another target) without making and running a new one.
-const finderStoreKey = (inboundPort: number, listen: string) =>
-  `realityFinder.command.${inboundPort}.${listen}`;
+const finderStoreKey = (inboundPort: number, listen: string, nodeId: number | null) =>
+  `realityFinder.command.${nodeId ?? ''}.${inboundPort}.${listen}`;
 
 export function loadFinderCommand(key: string): RealityFinderCommand | null {
   try {
@@ -79,6 +80,7 @@ export function finderNotes(row: RealityFinderTarget): string[] {
 export default function RealityFinderPanel({
   inboundPort,
   listen,
+  nodeId,
   currentTarget,
   pickedTargets,
   onPick,
@@ -89,7 +91,7 @@ export default function RealityFinderPanel({
   const [scope, setScope] = useState('24');
   const [making, setMaking] = useState(false);
   const [error, setError] = useState('');
-  const storeKey = finderStoreKey(inboundPort, listen);
+  const storeKey = finderStoreKey(inboundPort, listen, nodeId);
   const [command, setCommandState] = useState<RealityFinderCommand | null>(() =>
     loadFinderCommand(storeKey),
   );
@@ -126,7 +128,7 @@ export default function RealityFinderPanel({
       const current = currentTarget.trim().replace(/:\d+$/, '');
       const msg = await HttpUtil.post<RealityFinderCommand>(
         '/panel/api/server/realityFinder/command',
-        { server: server.trim(), port, scope, current },
+        { server: server.trim(), port, scope, current, nodeId },
         { ...JSON_HEADERS, silent: true },
       );
       if (msg?.success && msg.obj) {
