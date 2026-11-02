@@ -3,7 +3,6 @@ package controller
 import (
 	"io"
 	"net/http"
-	"strings"
 
 	"github.com/mhsanaei/3x-ui/v3/internal/web/service"
 
@@ -21,38 +20,13 @@ func NewRealityFinderController(g *gin.RouterGroup) *RealityFinderController {
 	return a
 }
 
-// requestBaseURL is the panel as the caller reached it, ending in the base path. Like
-// resolveHost, forwarded headers count only from a trusted proxy; the port is kept.
-func requestBaseURL(c *gin.Context) string {
-	scheme, host := "http", c.Request.Host
-	if c.Request.TLS != nil {
-		scheme = "https"
-	}
-	if isTrustedForwardedRequest(c) {
-		if strings.EqualFold(firstForwarded(c.GetHeader("X-Forwarded-Proto")), "https") {
-			scheme = "https"
-		}
-		if h := firstForwarded(c.GetHeader("X-Forwarded-Host")); h != "" {
-			host = h
-		}
-	}
-	return scheme + "://" + host + c.GetString("base_path")
-}
-
-func firstForwarded(v string) string {
-	if i := strings.Index(v, ","); i >= 0 {
-		v = v[:i]
-	}
-	return strings.TrimSpace(v)
-}
-
 func (a *RealityFinderController) newCommand(c *gin.Context) {
 	var req service.RealityFinderCommandRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		jsonMsg(c, I18nWeb(c, "pages.inbounds.form.finderCommandError"), err)
 		return
 	}
-	cmd, err := a.finder.NewCommand(req, requestBaseURL(c))
+	cmd, err := a.finder.NewCommand(req, panelBaseURL(c))
 	if err != nil {
 		jsonMsg(c, I18nWeb(c, "pages.inbounds.form.finderCommandError"), err)
 		return

@@ -89,9 +89,9 @@ func TestResolveHostIgnoresRealIPFromTrustedProxy(t *testing.T) {
 	}
 }
 
-// The finder command is fetched from this URL: forwarded headers only count from a
+// The one-day commands are fetched from this URL: forwarded headers only count from a
 // trusted proxy, and its Host must be the one the browser used (with its port).
-func TestRequestBaseURLTrustsForwardedHeadersOnlyFromAProxy(t *testing.T) {
+func TestPanelBaseURLTrustsForwardedHeadersOnlyFromAProxy(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 	for _, tc := range []struct {
 		name, remote, proto, fwdHost, want string
@@ -111,8 +111,8 @@ func TestRequestBaseURLTrustsForwardedHeadersOnlyFromAProxy(t *testing.T) {
 			}
 			c.Set("base_path", "/x/")
 
-			if got := requestBaseURL(c); got != tc.want {
-				t.Errorf("requestBaseURL = %q, want %q", got, tc.want)
+			if got := panelBaseURL(c); got != tc.want {
+				t.Errorf("panelBaseURL = %q, want %q", got, tc.want)
 			}
 		})
 	}

@@ -20,6 +20,7 @@ type oneDayJob[Req, Rep any] struct {
 	expires time.Time
 	seq     uint64 // creation order: expiry times tie on a coarse clock (Windows)
 	reports []Rep
+	scripts map[string]string
 }
 
 // add stores req for cleanIpCommandTTL; a full store drops its oldest job rather than refuse.
@@ -74,6 +75,35 @@ func (s *oneDayJobs[Req, Rep]) request(token string) (Req, error) {
 		return zero, err
 	}
 	return job.req, nil
+}
+
+// setScripts fixes the scripts the job's commands hash; "" is the default variant.
+func (s *oneDayJobs[Req, Rep]) setScripts(token string, scripts map[string]string) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	job, err := s.jobFor(token)
+	if err != nil {
+		return err
+	}
+	job.scripts = scripts
+	return nil
+}
+
+// script is the job's variant for key, else its default one.
+func (s *oneDayJobs[Req, Rep]) script(token, key string) (string, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	job, err := s.jobFor(token)
+	if err != nil {
+		return "", err
+	}
+	if v, ok := job.scripts[key]; ok && key != "" {
+		return v, nil
+	}
+	if v, ok := job.scripts[""]; ok {
+		return v, nil
+	}
+	return "", errCleanIpExpired
 }
 
 func (s *oneDayJobs[Req, Rep]) reports(token string) ([]Rep, error) {
