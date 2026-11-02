@@ -43,6 +43,7 @@ export default function RealityWatchSection({
   const formTarget = useWatch({ name: 'streamSettings.realitySettings.target' }) as unknown;
   const inboundPort = Number(useWatch({ name: 'port' })) || 0;
   const listen = (useWatch({ name: 'listen' }) as string | undefined) ?? '';
+  const nodeId = (useWatch({ name: 'nodeId' }) as number | null | undefined) ?? null;
   const isDraft = !inboundId;
   const currentTarget = isDraft
     ? typeof formTarget === 'string'
@@ -309,6 +310,7 @@ export default function RealityWatchSection({
         }}
         inboundPort={inboundPort}
         listen={listen}
+        nodeId={nodeId}
         currentTarget={currentTarget}
         picked={spares}
       />
