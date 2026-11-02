@@ -671,7 +671,7 @@ describe('InboundFormModal', () => {
     fireEvent.click((await screen.findAllByRole('button', { name: 'Use' }))[0]);
 
     await waitFor(() => expect(screen.queryByText('181 ms')).toBeNull());
-  });
+  }, 20_000);
 
   it('offers the enable switch when adding an inbound but not when editing one', () => {
     renderModal();

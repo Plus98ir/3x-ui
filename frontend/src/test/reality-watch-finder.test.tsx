@@ -44,7 +44,7 @@ describe('REALITY watch spares from the finder', () => {
   beforeEach(() => {
     sessionStorage.clear();
     sessionStorage.setItem(
-      'realityFinder.command.443.',
+      'realityFinder.command..443.',
       JSON.stringify({
         token: 'tok',
         expiresAt: 4102444800,
