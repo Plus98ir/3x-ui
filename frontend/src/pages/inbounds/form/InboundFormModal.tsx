@@ -1048,6 +1048,11 @@ export default function InboundFormModal({
           onWatchDraftChange={(entry) => {
             realityWatchDraft.current = entry;
           }}
+          onWatchSwitched={(target, serverNames) => {
+            methods.setValue('streamSettings.realitySettings.target', target);
+            methods.setValue('streamSettings.realitySettings.serverNames', serverNames);
+            setScanResult(null);
+          }}
         />
       )}
     </>

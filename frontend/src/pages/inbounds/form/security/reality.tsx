@@ -49,6 +49,7 @@ interface RealityFormProps {
   onNode?: boolean;
   messageApi?: MessageInstance;
   onWatchDraftChange?: (entry: RealityWatchEntry) => void;
+  onWatchSwitched?: (target: string, serverNames: string[]) => void;
 }
 
 export default function RealityForm({
@@ -69,6 +70,7 @@ export default function RealityForm({
   onNode = false,
   messageApi,
   onWatchDraftChange,
+  onWatchSwitched,
 }: RealityFormProps) {
   const { t } = useTranslation();
   const uid = useId();
@@ -407,6 +409,7 @@ export default function RealityForm({
         scanRealityCandidates={scanRealityCandidates}
         message={messageApi}
         onDraftChange={onWatchDraftChange}
+        onSwitched={onWatchSwitched}
       />
       <RealityTargetScannerModal
         open={scannerOpen}
